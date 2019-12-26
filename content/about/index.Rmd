@@ -5,10 +5,8 @@ slug: about-me
 
 My name is Justin Lim. I am currently a university student studying
 bioinformatics at UCSD. My enjoy coding in R and C++, but I have a lot to
-learn so I hope that collecting what I learn on a website will help me out.
-I also have a crush on this one girl and I am pretty sure she likes me so
-that's good.
-
+learn so I hope that collecting what I learn on a website will help me out. I
+am also dating this super cute girl so that's good.
   
 As far as bioinformatics goes, I am interested in understanding protein
 folding and molecular design.
