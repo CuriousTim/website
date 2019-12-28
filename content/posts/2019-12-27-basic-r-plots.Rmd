@@ -1,0 +1,143 @@
+---
+title: "Plotting in R"
+author: "Justin Lim"
+date: "2019-12-27"
+tags: ["R"]
+slug: "basic-r-plots"
+highlightjs: true
+output:
+  blogdown::html_page:
+    dev: "svg"
+    highlight: null
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set()
+```
+
+Plotting in R can get fairly completed with a plethora of functions and parameters available to
+users. Fortunately, there is not too much to learn in order to get started with the basics. This
+post will cover the basics of three different plot types in R: scatterplots, barplots and
+histograms.
+
+## Scatterplots
+
+Scatterplots are made in R with the `plot` function. The only necessary arguments are the x and y
+coordinates of the points to plot. Usually you would provide two different numeric vectors as
+shown below, but you can actually plot with a single vector as well. In that case, the indices of
+the vector will be used as the x-coordinates and the vector entries will be used as the
+y-coordinates.
+
+```{r, "plot01"}
+plot(
+  x = runif(50, min = 0, max = 100),
+  y = runif(50, min = 0, max = 100),
+  type = "b",
+  main = "My First Plot",
+  xlab = "Random Points from Uniform Distribution",
+  ylab = "Random Points from Uniform Distribution",
+  pch = 21,
+  col = "tomato1",
+  bg = "tan",
+  cex = 1
+)
+```
+
+```{r, "plotArgs", echo = FALSE}
+knitr::kable(
+  data.frame(
+    Argument = c("`x`", "`y`", "`type`", "`main`", "`xlab`", "`ylab`", "`pch`", "`col`", "`bg`", "`cex`"),
+    Description = c(
+      "X-coordinates of points to plot.",
+      "Y-coordinates of points to plot.",
+      "What to plot e.g. \"p\" for points, \"l\" for lines, \"b\" for both.",
+      "Main title of the plot.",
+      "Label for the x-axis.",
+      "Label for the y-axis.",
+      "An integer specifying the point type or a single character to use as the \"point\".",
+      "Color of plotted points and lines. Will be used as the point border color",
+      "Point fill color.",
+      "An integer or decimal giving the size of the points. Larger numbers are bigger."
+    )
+  ),
+  caption = "Some basic arguments to the plot function."
+)
+```
+
+## Histograms
+
+Histograms are made with the `hist` function. Below is an example plot made with the `warpbreaks`
+dataset that comes with R.
+
+```{r, "plot02"}
+yarn_breaks <- datasets::warpbreaks$breaks
+hist(
+  x = yarn_breaks,
+  breaks = 10,
+  xlab = "Number of Breaks",
+  main = "Breaks of Wools of Different Types and Tensions During Weaving",
+  xlim = c(0, 80),
+  col = "limegreen",
+  border = "black"
+)
+```
+
+```{r, "histArgs", echo = FALSE}
+knitr::kable(
+  data.frame(
+    Argument = c("`x`", "`breaks`", "`xlim`", "`border`", "`freq`"),
+    Description = c(
+      "Vector of values.",
+      "Specifies how to create the bins.",
+      "Range of the x-axis",
+      "Color of the bin borders",
+      "If TRUE, counts are plots, else probability are plotted."
+    )
+  ),
+  caption = "Some basic arguments to the hist function."
+)
+```
+
+## Barplots
+
+Barplots are made with the `barplot` function. Below is an example barplot made from eye color
+data of students at the University of Delaware reported in 1974.
+
+```{r, "plot03"}
+hair_eye_color <- datasets::HairEyeColor
+m_eye_colors <- colSums(hair_eye_color[,, 1])
+f_eye_colors <- colSums(hair_eye_color[,, 2])
+eye_colors <- rbind(m_eye_colors, f_eye_colors)
+rownames(eye_colors) <- c("Male", "Female")
+eye_colors_percent <- round(eye_colors / rowSums(eye_colors) * 100, 2)
+
+barplot(
+  height = eye_colors_percent, 
+  legend.text = TRUE, 
+  beside = TRUE, 
+  ylab = "Percent",
+  xlab = "Eye Color",
+  main = "Eye Colors of Statistic Students",
+  ylim = c(0, 40)
+)
+```
+
+```{r, "barArgs", echo = FALSE}
+knitr::kable(
+  data.frame(
+    Argument = c("`height`", "`legend.text`", "`beside`", "`ylim`"),
+    Description = c(
+      "Vector or matrix of heights. If a matrix, each row is a set of bars.",
+      "Value of TRUE uses row names for legend text. FALSE exludes a legend.",
+      "Whether to stack the bars or place next to each other.",
+      "Range of the y-axis."
+    )
+  ),
+  caption = "Some basic arguments to the barplot function."
+)
+```
+
+```r
+print("Hello World")
+```
+

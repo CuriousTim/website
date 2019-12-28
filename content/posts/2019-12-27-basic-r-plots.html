@@ -1,0 +1,179 @@
+---
+title: "Plotting in R"
+author: "Justin Lim"
+date: "2019-12-27"
+tags: ["R"]
+slug: "basic-r-plots"
+highlightjs: true
+output:
+  blogdown::html_page:
+    dev: "svg"
+    highlight: null
+---
+
+
+
+<p>Plotting in R can get fairly completed with a plethora of functions and parameters available to users. Fortunately, there is not too much to learn in order to get started with the basics. This post will cover the basics of three different plot types in R: scatterplots, barplots and histograms.</p>
+<div id="scatterplots" class="section level2">
+<h2>Scatterplots</h2>
+<p>Scatterplots are made in R with the <code>plot</code> function. The only necessary arguments are the x and y coordinates of the points to plot. Usually you would provide two different numeric vectors as shown below, but you can actually plot with a single vector as well. In that case, the indices of the vector will be used as the x-coordinates and the vector entries will be used as the y-coordinates.</p>
+<pre class="r"><code>plot(
+  x = runif(50, min = 0, max = 100),
+  y = runif(50, min = 0, max = 100),
+  type = &quot;b&quot;,
+  main = &quot;My First Plot&quot;,
+  xlab = &quot;Random Points from Uniform Distribution&quot;,
+  ylab = &quot;Random Points from Uniform Distribution&quot;,
+  pch = 21,
+  col = &quot;tomato1&quot;,
+  bg = &quot;tan&quot;,
+  cex = 1
+)</code></pre>
+<p><img src="/posts/2019-12-27-basic-r-plots_files/figure-html/plot01-1.svg" width="672" /></p>
+<table>
+<caption><span id="tab:plotArgs">Table 1: </span>Some basic arguments to the plot function.</caption>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>x</code></td>
+<td align="left">X-coordinates of points to plot.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>y</code></td>
+<td align="left">Y-coordinates of points to plot.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>type</code></td>
+<td align="left">What to plot e.g. “p” for points, “l” for lines, “b” for both.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>main</code></td>
+<td align="left">Main title of the plot.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xlab</code></td>
+<td align="left">Label for the x-axis.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ylab</code></td>
+<td align="left">Label for the y-axis.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>pch</code></td>
+<td align="left">An integer specifying the point type or a single character to use as the “point”.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>col</code></td>
+<td align="left">Color of plotted points and lines. Will be used as the point border color</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>bg</code></td>
+<td align="left">Point fill color.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cex</code></td>
+<td align="left">An integer or decimal giving the size of the points. Larger numbers are bigger.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="histograms" class="section level2">
+<h2>Histograms</h2>
+<p>Histograms are made with the <code>hist</code> function. Below is an example plot made with the <code>warpbreaks</code> dataset that comes with R.</p>
+<pre class="r"><code>yarn_breaks &lt;- datasets::warpbreaks$breaks
+hist(
+  x = yarn_breaks,
+  breaks = 10,
+  xlab = &quot;Number of Breaks&quot;,
+  main = &quot;Breaks of Wools of Different Types and Tensions During Weaving&quot;,
+  xlim = c(0, 80),
+  col = &quot;limegreen&quot;,
+  border = &quot;black&quot;
+)</code></pre>
+<p><img src="/posts/2019-12-27-basic-r-plots_files/figure-html/plot02-1.svg" width="672" /></p>
+<table>
+<caption><span id="tab:histArgs">Table 2: </span>Some basic arguments to the hist function.</caption>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>x</code></td>
+<td align="left">Vector of values.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>breaks</code></td>
+<td align="left">Specifies how to create the bins.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>xlim</code></td>
+<td align="left">Range of the x-axis</td>
+</tr>
+<tr class="even">
+<td align="left"><code>border</code></td>
+<td align="left">Color of the bin borders</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>freq</code></td>
+<td align="left">If TRUE, counts are plots, else probability are plotted.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="barplots" class="section level2">
+<h2>Barplots</h2>
+<p>Barplots are made with the <code>barplot</code> function. Below is an example barplot made from eye color data of students at the University of Delaware reported in 1974.</p>
+<pre class="r"><code>hair_eye_color &lt;- datasets::HairEyeColor
+m_eye_colors &lt;- colSums(hair_eye_color[,, 1])
+f_eye_colors &lt;- colSums(hair_eye_color[,, 2])
+eye_colors &lt;- rbind(m_eye_colors, f_eye_colors)
+rownames(eye_colors) &lt;- c(&quot;Male&quot;, &quot;Female&quot;)
+eye_colors_percent &lt;- round(eye_colors / rowSums(eye_colors) * 100, 2)
+
+barplot(
+  height = eye_colors_percent, 
+  legend.text = TRUE, 
+  beside = TRUE, 
+  ylab = &quot;Percent&quot;,
+  xlab = &quot;Eye Color&quot;,
+  main = &quot;Eye Colors of Statistic Students&quot;,
+  ylim = c(0, 40)
+)</code></pre>
+<p><img src="/posts/2019-12-27-basic-r-plots_files/figure-html/plot03-1.svg" width="672" /></p>
+<table>
+<caption><span id="tab:barArgs">Table 3: </span>Some basic arguments to the barplot function.</caption>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>height</code></td>
+<td align="left">Vector or matrix of heights. If a matrix, each row is a set of bars.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>legend.text</code></td>
+<td align="left">Value of TRUE uses row names for legend text. FALSE exludes a legend.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>beside</code></td>
+<td align="left">Whether to stack the bars or place next to each other.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ylim</code></td>
+<td align="left">Range of the y-axis.</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>print(&quot;Hello World&quot;)</code></pre>
+</div>
