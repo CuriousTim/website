@@ -136,8 +136,3 @@ knitr::kable(
   caption = "Some basic arguments to the barplot function."
 )
 ```
-
-```r
-print("Hello World")
-```
-
